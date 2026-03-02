@@ -24,6 +24,17 @@ background-image: url("blaze_back_new.png");
 width: 1366px;
 align-items: center;
 }
+#studentRegisterForm label {
+  display: block;
+  color: #ddd;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+#studentRegisterForm select.form-control,
+#studentRegisterForm select.form-control option {
+  background: #2b303a !important;
+  color: #fff !important;
+}
 </style>
 <body>
     <center><h2 style="color:#7CFC00;font-size:30px"><BR><BR><BR>WELCOME TO <BR>SPORTS CLUB Management System <BR><BR><BR></h2></center>
@@ -96,74 +107,85 @@ align-items: center;
 					<form action="register_student.php" method="post">
 						<input type="hidden" name="m_id" value="<?php echo time(); ?>">
 						<div class="form-group">
+							<label for="u_name">Name</label>
 							<div class="input-group">
 								<div class="input-group-addon"><i class="entypo-user"></i></div>
-								<input type="text" name="u_name" class="form-control" placeholder="Name" required maxlength="40">
+								<input type="text" name="u_name" id="u_name" class="form-control" placeholder="Name" required maxlength="40">
 							</div>
 						</div>
 						<div class="form-group">
+							<label for="street_name">Street name</label>
 							<div class="input-group">
 								<div class="input-group-addon"><i class="entypo-key"></i></div>
-								<input type="text" name="street_name" class="form-control" placeholder="Street name" required maxlength="40">
+								<input type="text" name="street_name" id="street_name" class="form-control" placeholder="Street name" required maxlength="40">
 							</div>
 						</div>
 						<div class="form-group">
+							<label for="city">City</label>
 							<div class="input-group">
 								<div class="input-group-addon"><i class="entypo-key"></i></div>
-								<input type="text" name="city" class="form-control" placeholder="City" required>
+								<input type="text" name="city" id="city" class="form-control" placeholder="City" required>
 							</div>
 						</div>
 						<div class="form-group">
+							<label for="zipcode">Zipcode</label>
 							<div class="input-group">
 								<div class="input-group-addon"><i class="entypo-key"></i></div>
-								<input type="number" name="zipcode" class="form-control" placeholder="Zipcode" required maxlength="6">
+								<input type="number" name="zipcode" id="zipcode" class="form-control" placeholder="Zipcode" required maxlength="6">
 							</div>
 						</div>
 						<div class="form-group">
+							<label for="state">State</label>
 							<div class="input-group">
 								<div class="input-group-addon"><i class="entypo-key"></i></div>
-								<input type="text" name="state" class="form-control" placeholder="State" required>
+								<input type="text" name="state" id="state" class="form-control" placeholder="State" required>
 							</div>
 						</div>
 						<div class="form-group">
+							<label for="gender">Gender</label>
 							<div class="input-group">
 								<div class="input-group-addon"><i class="entypo-user"></i></div>
-								<select name="gender" class="form-control" required>
-									<option value="">Gender</option>
+								<select name="gender" id="gender" class="form-control" required>
+									<option value="">-- Select --</option>
 									<option value="Male">Male</option>
 									<option value="Female">Female</option>
 								</select>
 							</div>
 						</div>
 						<div class="form-group">
+							<label for="dob">Date of birth</label>
 							<div class="input-group">
 								<div class="input-group-addon"><i class="entypo-calendar"></i></div>
-								<input type="date" name="dob" class="form-control" required>
+								<input type="date" name="dob" id="dob" class="form-control" required>
 							</div>
 						</div>
 						<div class="form-group">
+							<label for="mobile">Phone</label>
 							<div class="input-group">
 								<div class="input-group-addon"><i class="entypo-key"></i></div>
-								<input type="text" name="mobile" class="form-control" placeholder="Phone" required maxlength="20">
+								<input type="text" name="mobile" id="mobile" class="form-control" placeholder="Phone" required maxlength="20">
 							</div>
 						</div>
 						<div class="form-group">
+							<label for="email">Email</label>
 							<div class="input-group">
 								<div class="input-group-addon"><i class="entypo-mail"></i></div>
-								<input type="email" name="email" class="form-control" placeholder="Email" required maxlength="100">
+								<input type="email" name="email" id="email" class="form-control" placeholder="Email" required maxlength="100">
 							</div>
 						</div>
 						<div class="form-group">
+							<label for="jdate">Joining date</label>
 							<div class="input-group">
 								<div class="input-group-addon"><i class="entypo-calendar"></i></div>
-								<input type="date" name="jdate" class="form-control" placeholder="Joining date" required>
+								<input type="date" name="jdate" id="jdate" class="form-control" placeholder="Joining date" required>
 							</div>
 						</div>
 						<div class="form-group">
+							<label for="plan">Plan</label>
 							<div class="input-group">
 								<div class="input-group-addon"><i class="entypo-key"></i></div>
-								<select name="plan" class="form-control" required>
-									<option value="">-- Plan --</option>
+								<select name="plan" id="plan" class="form-control" required>
+									<option value="">-- Select plan --</option>
 									<?php
 									$plan_query = "SELECT * FROM plan WHERE active='yes'";
 									$plan_result = pg_query($con, $plan_query);
