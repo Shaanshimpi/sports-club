@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require '../../include/db_conn.php';
 page_protect();
 ?>
@@ -115,34 +115,21 @@ page_protect();
 							if (pg_num_rows($result) != 0) {
 							    while ($row = pg_fetch_assoc($result)) {
 							        $uid   = $row['userid'];
-							        $uid = pg_escape_string($con, $uid);
-							        $query1  = "SELECT * FROM enrolls_to WHERE uid='$uid' AND renewal='yes'";
+							        $uid_esc = pg_escape_string($con, $uid);
+							        $query1  = "SELECT * FROM enrolls_to WHERE uid='$uid_esc' AND renewal='yes' ORDER BY et_id DESC LIMIT 1";
 							        $result1 = pg_query($con, $query1);
-							        if (pg_num_rows($result1) == 1) {
-							            while ($row1 = pg_fetch_assoc($result1)) {
-							                
-							                echo "<tr><td>".$sno."</td>";
-
-							                echo "<td>" . $row1['expire'] . "</td>";
-							                
-							                echo "<td>" . $row['userid'] . "</td>";
-
-							                echo "<td>" . $row['username'] . "</td>";
-
-							                echo "<td>" . $row['mobile'] . "</td>";
-
-							                echo "<td>" . $row['email'] . "</td>";
-
-							                echo "<td>" . $row['gender'] . "</td>";
-
-							                echo "<td>" . $row['joining_date'] ."</td>";
-							                
-							                $sno++;
-							       
-							                echo "<td><form action='read_member.php' method='post'><input type='hidden' name='name' value='" . $uid . "'/><input type='submit' class='a1-btn a1-blue' id='button1' value='View History ' class='btn btn-info'/></form><form action='edit_member.php' method='post'><input type='hidden'  name='name' value='" . $uid . "'/><input type='submit' class='a1-btn a1-green' id='button1' value='Edit' class='btn btn-warning'/></form><form action='del_member.php' method='post' onsubmit='return ConfirmDelete()'><input type='hidden' name='name' value='" . $uid . "'/><input type='submit' value='Delete' width='20px' id='button1' class='a1-btn a1-orange'/></form></td></tr>";
-							                $msgid = 0;
-							            }
-							        }
+							        $expire = (pg_num_rows($result1) == 1) ? pg_fetch_assoc($result1)['expire'] : '—';
+							        
+							        echo "<tr><td>".$sno."</td>";
+							        echo "<td>" . htmlspecialchars($expire) . "</td>";
+							        echo "<td>" . htmlspecialchars($row['userid']) . "</td>";
+							        echo "<td>" . htmlspecialchars($row['username']) . "</td>";
+							        echo "<td>" . htmlspecialchars($row['mobile']) . "</td>";
+							        echo "<td>" . htmlspecialchars($row['email']) . "</td>";
+							        echo "<td>" . htmlspecialchars($row['gender']) . "</td>";
+							        echo "<td>" . htmlspecialchars($row['joining_date']) . "</td>";
+							        $sno++;
+							        echo "<td><form action='read_member.php' method='post'><input type='hidden' name='name' value='" . htmlspecialchars($uid, ENT_QUOTES, 'UTF-8') . "'/><input type='submit' class='a1-btn a1-blue' id='button1' value='View History ' class='btn btn-info'/></form><form action='edit_member.php' method='post'><input type='hidden'  name='name' value='" . htmlspecialchars($uid, ENT_QUOTES, 'UTF-8') . "'/><input type='submit' class='a1-btn a1-green' id='button1' value='Edit' class='btn btn-warning'/></form><form action='del_member.php' method='post' onsubmit='return ConfirmDelete()'><input type='hidden' name='name' value='" . htmlspecialchars($uid, ENT_QUOTES, 'UTF-8') . "'/><input type='submit' value='Delete' width='20px' id='button1' class='a1-btn a1-orange'/></form></td></tr>";
 							    }
 							}
 						?>									
