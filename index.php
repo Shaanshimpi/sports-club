@@ -7,6 +7,10 @@ if(isset($_SESSION["user_data"]))
 {
 	header("location:./dashboard/admin/");
 }
+if(isset($_SESSION["member_userid"]))
+{
+	header("location:./dashboard/member/");
+}
 
 ?>
 
@@ -51,7 +55,7 @@ align-items: center;
 				<img src="logo1.png" alt="" />
 			</a>
 			
-			<p class="description">Dear user, log in to access the admin area!</p>
+			<p class="description">Dear user, log in to access your area!</p>
 			
 			<!-- progress bar indicator -->
 			<div class="login-progressbar-indicator">
@@ -76,7 +80,7 @@ align-items: center;
 						<div class="input-group-addon">
 							<i class="entypo-user"></i>
 						</div>
-							<input type="text" placeholder="User ID" class="form-control" name="user_id_auth" id="textfield" data-rule-minlength="6" data-rule-required="true">
+							<input type="text" placeholder="Admin username / Member ID / Member email" class="form-control" name="user_id_auth" id="textfield" data-rule-minlength="4" data-rule-required="true">
 					</div>
 				</div>				
 								
@@ -174,6 +178,13 @@ align-items: center;
 							</div>
 						</div>
 						<div class="form-group">
+							<label for="member_pass">Password</label>
+							<div class="input-group">
+								<div class="input-group-addon"><i class="entypo-key"></i></div>
+								<input type="password" name="member_pass" id="member_pass" class="form-control" placeholder="Password" required maxlength="50">
+							</div>
+						</div>
+						<div class="form-group">
 							<label for="jdate">Joining date</label>
 							<div class="input-group">
 								<div class="input-group-addon"><i class="entypo-calendar"></i></div>
@@ -205,7 +216,7 @@ align-items: center;
 					</form>
 				</div>
 				<?php if (isset($_GET['registered']) && $_GET['registered'] === '1'): ?>
-				<p style="color:#7CFC00;">You have been enrolled as a student. (This does not grant login access.)</p>
+				<p style="color:#7CFC00;">You have been enrolled. Use the same login form above with your Member ID or Email + Password.</p>
 				<?php elseif (isset($_GET['registered']) && $_GET['registered'] === '0'): ?>
 				<p style="color:#ff6b6b;">Registration failed. Please try again.</p>
 				<?php endif; ?>

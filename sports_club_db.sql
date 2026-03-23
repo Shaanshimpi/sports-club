@@ -72,6 +72,18 @@ INSERT INTO `users` VALUES ('1529336795', 'Shreyansh Gupta', 'Male', '3362013747
 
 
 -- ----------------------------
+-- Table structure for member_login
+-- ----------------------------
+DROP TABLE IF EXISTS `member_login`;
+CREATE TABLE `member_login` (
+`userid` varchar(20) NOT NULL,
+`pass_key` varchar(50) NOT NULL,
+PRIMARY KEY (`userid`) USING BTREE,
+CONSTRAINT `member_login_user` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`) ON DELETE CASCADE ON UPDATE NO ACTION
+)ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+
+
+-- ----------------------------
 -- Table structure for health_status
 -- ----------------------------
 DROP TABLE IF EXISTS `health_status`;

@@ -35,31 +35,39 @@ else{
 // Escape strings for PostgreSQL
 $user_id_auth = pg_escape_string($con, $user_id_auth);
 $pass_key     = pg_escape_string($con, $pass_key);
+
+// 1) Try admin login using admin username
 $sql          = "SELECT * FROM admin WHERE username='$user_id_auth' and pass_key='$pass_key'";
 $result       = pg_query($con, $sql);
-$count        = pg_num_rows($result);
-if ($count == 1) {
+if ($result && pg_num_rows($result) == 1) {
     $row = pg_fetch_assoc($result);
     session_start();
-    // store session data
     $_SESSION['user_data']  = $user_id_auth;
     $_SESSION['logged']     = "start";
-    // $_SESSION['auth_level'] = $row['level'];
     $_SESSION['full_name']  = $user_id_auth;
-    $_SESSION['username']=$row['Full_name'];
-    // $auth_l_x               = $_SESSION['auth_level'];
-    // if ($auth_l_x == 5) {
-        header("location: ./dashboard/admin/");
-    // } else if ($auth_l_x == 4) {
-    //     header("location: ../dashboard/cashier/");
-    // } else if ($auth_l_x == 3) {
-    //     header("location: ../dashboard/member/");        
-    // } else {
-    //     header("location: ../login/");
-    // }
+    $_SESSION['username']   = $row['Full_name'];
+    header("location: ./dashboard/admin/");
+    exit;
 } else {
-    include 'index.php';
-    echo "<html><head><script>alert('Username OR Password is Invalid');</script></head></html>";
+    // 2) Try member login using member ID or email + password
+    $sql_member = "SELECT m.userid, u.username
+                   FROM member_login m
+                   INNER JOIN users u ON m.userid=u.userid
+                   WHERE (m.userid='$user_id_auth' OR u.email='$user_id_auth')
+                   AND m.pass_key='$pass_key'";
+    $result_member = pg_query($con, $sql_member);
+    if ($result_member && pg_num_rows($result_member) == 1) {
+        $row_member = pg_fetch_assoc($result_member);
+        session_start();
+        $_SESSION['member_userid'] = $row_member['userid'];
+        $_SESSION['member_logged'] = "start";
+        $_SESSION['member_name']   = $row_member['username'];
+        header("location: ./dashboard/member/");
+        exit;
+    } else {
+        include 'index.php';
+        echo "<html><head><script>alert('Username OR Password is Invalid');</script></head></html>";
+    }
 }
 }
 ?>

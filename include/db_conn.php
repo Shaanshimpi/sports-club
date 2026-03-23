@@ -15,11 +15,17 @@ $con = pg_connect("host=$host port=$port dbname=$dbname user=$username password=
 if (!$con) {
     die("Failed to connect to PostgreSQL: " . pg_last_error());
 }
+
+require_once __DIR__ . '/auto_seed.php';
+run_seed_if_needed($con);
 ?>
 <?php
+if (!function_exists('page_protect')) {
 function page_protect()
 {
-    session_start();
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
     
     global $db;
     
@@ -43,5 +49,6 @@ function page_protect()
         
     }
     
+}
 }
 ?>

@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS address CASCADE;
 DROP TABLE IF EXISTS sports_timetable CASCADE;
 DROP TABLE IF EXISTS enrolls_to CASCADE;
 DROP TABLE IF EXISTS health_status CASCADE;
+DROP TABLE IF EXISTS member_login CASCADE;
 DROP TABLE IF EXISTS log_users CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS plan CASCADE;
@@ -47,6 +48,15 @@ CREATE INDEX email_idx ON users(email);
 INSERT INTO users VALUES
 ('1529336794', 'Christiana Mayberry', 'Male', '3362013747', 'christiani@gmail.com', '1968-04-13', '2018-06-18'),
 ('1529336795', 'Shreyansh Gupta', 'Male', '3362013747', 'shreyansh@gmail.com', '1998-12-12', '2020-06-10');
+
+-----------------------------------------------------
+-- member_login
+-----------------------------------------------------
+CREATE TABLE member_login (
+    userid VARCHAR(20) PRIMARY KEY,
+    pass_key VARCHAR(50) NOT NULL,
+    CONSTRAINT member_login_user FOREIGN KEY (userid) REFERENCES users(userid) ON DELETE CASCADE
+);
 
 -----------------------------------------------------
 -- log_users

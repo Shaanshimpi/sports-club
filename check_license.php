@@ -28,7 +28,7 @@ if ($http_code == 200 && $response !== false) {
 }
 
 // License invalid or API failed, redirect to contact page
-if(false){              //change this to true
+if(true){              //change this to true
     return;
 }else{
     header('Location: contact_me.php');

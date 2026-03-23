@@ -95,50 +95,65 @@ if (isset($_POST['name'])) {
 		<hr />
 
 			<?php
-	    
-				    $query  = "SELECT * FROM users u 
-				    		   INNER JOIN address a ON u.userid=a.id
-				    		   INNER JOIN  health_status h ON u.userid=h.uid
-				    		   INNER JOIN enrolls_to e on u.userid=e.uid
-				    		   INNER JOIN plan p on e.pid=p.pid
-				    		   WHERE userid='$memid' AND e.renewal='yes'";
-				    //echo $query;
+				    $memid = pg_escape_string($con, $memid);
+				    $query  = "SELECT
+				                    u.username, u.gender, u.mobile, u.email, u.dob, u.joining_date,
+				                    a.\"streetName\", a.state, a.city, a.zipcode,
+				                    h.calorie, h.height, h.weight, h.fat, h.remarks,
+				                    p.\"planName\", p.amount, p.validity, p.description,
+				                    e.paid_date, e.expire
+				               FROM users u
+				               LEFT JOIN address a ON u.userid = a.id
+				               LEFT JOIN LATERAL (
+				                    SELECT calorie, height, weight, fat, remarks
+				                    FROM health_status
+				                    WHERE uid = u.userid
+				                    ORDER BY hid DESC
+				                    LIMIT 1
+				               ) h ON true
+				               LEFT JOIN LATERAL (
+				                    SELECT pid, paid_date, expire
+				                    FROM enrolls_to
+				                    WHERE uid = u.userid AND renewal = 'yes'
+				                    ORDER BY et_id DESC
+				                    LIMIT 1
+				               ) e ON true
+				               LEFT JOIN plan p ON p.pid = e.pid
+				               WHERE u.userid='$memid'";
 				    $result = pg_query($con, $query);
-				    $sno    = 1;
-				    
-				    $name="";
-				    $gender="";
 
-				    if (pg_num_rows($result) == 1) {
-				        while ($row = pg_fetch_assoc($result)) {
-				    
-				            $name    = $row['username'];
-				            $gender =$row['gender'];
-				            $mobile = $row['mobile'];
-				            $email   = $row['email'];
-				            $dob	 = $row['dob'];         
-				            $jdate    = $row['joining_date'];
-				          	$streetname=$row['streetName'];
-				          	$state=$row['state'];
-				          	$city=$row['city'];  
-				          	$zipcode=$row['zipcode'];
-				            $calorie=$row['calorie'];
-				            $height=$row['height'];
-				            $weight=$row['weight'];
-				            $fat=$row['fat'];
-				            $planname=$row['planName'];
-				            $pamount=$row['amount'];
-				            $pvalidity=$row['validity'];
-				            $pdescription=$row['description'];
-				            $paiddate=$row['paid_date'];
-				            $expire=$row['expire'];
-				            $remarks=$row['remarks'];
+				    // Defaults prevent undefined-variable warnings.
+				    $name = $gender = $mobile = $email = $dob = $jdate = "";
+				    $streetname = $state = $city = $zipcode = "";
+				    $calorie = $height = $weight = $fat = $remarks = "";
+				    $planname = $pamount = $pvalidity = $pdescription = "";
+				    $paiddate = $expire = "";
 
-				        }
-				    }
-				    else{
-				    	 echo "<html><head><script>alert('Change Unsuccessful');</script></head></html>";
-				    	 echo pg_last_error($con);
+				    if ($result && pg_num_rows($result) >= 1) {
+				        $row = pg_fetch_assoc($result);
+				        $name = $row['username'];
+				        $gender = $row['gender'];
+				        $mobile = $row['mobile'];
+				        $email = $row['email'];
+				        $dob = $row['dob'];
+				        $jdate = $row['joining_date'];
+				        $streetname = $row['streetName'];
+				        $state = $row['state'];
+				        $city = $row['city'];
+				        $zipcode = $row['zipcode'];
+				        $calorie = $row['calorie'];
+				        $height = $row['height'];
+				        $weight = $row['weight'];
+				        $fat = $row['fat'];
+				        $planname = $row['planName'];
+				        $pamount = $row['amount'];
+				        $pvalidity = $row['validity'];
+				        $pdescription = $row['description'];
+				        $paiddate = $row['paid_date'];
+				        $expire = $row['expire'];
+				        $remarks = $row['remarks'];
+				    } else {
+				        echo "<html><head><script>alert('Member details not found');</script></head></html>";
 				    }
 
 
@@ -214,7 +229,7 @@ if (isset($_POST['name'])) {
              </tr>
 			 <tr>
                <td height="35">FAT:</td>
-               <td height="35"><input type="text" readonly="" id="boxxe" value='<?php echo $weight?>'></td>
+               <td height="35"><input type="text" readonly="" id="boxxe" value='<?php echo $fat?>'></td>
              </tr>
 			 <tr>
                <td height="35">PLAN NAME:</td>

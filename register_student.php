@@ -7,7 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 	exit;
 }
 
-// Same validation as new_submit.php
 $errors = [];
 if (strlen($_POST['m_id']) > 20) {
 	$errors[] = "Member ID must be 20 characters or less";
@@ -21,14 +20,19 @@ if (strlen($_POST['mobile']) > 20) {
 if (strlen($_POST['u_name']) > 40) {
 	$errors[] = "Username must be 40 characters or less";
 }
+if (strlen($_POST['member_pass']) < 4) {
+	$errors[] = "Password must be at least 4 characters";
+}
+if (strlen($_POST['member_pass']) > 50) {
+	$errors[] = "Password must be 50 characters or less";
+}
 
 if (!empty($errors)) {
-	echo "<head><script>alert('Validation Error:\\n" . implode("\\n", array_map('addslashes', $errors)) . "');</script></head></html>";
+	echo "<head><script>alert('Validation Error:\n" . implode("\n", array_map('addslashes', $errors)) . "');</script></head></html>";
 	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
 	exit;
 }
 
-// Escape all user inputs (same as new_submit.php)
 $memID = pg_escape_string($con, $_POST['m_id']);
 $uname = pg_escape_string($con, $_POST['u_name']);
 $stname = pg_escape_string($con, $_POST['street_name']);
@@ -41,8 +45,8 @@ $phn = pg_escape_string($con, $_POST['mobile']);
 $email = pg_escape_string($con, $_POST['email']);
 $jdate = pg_escape_string($con, $_POST['jdate']);
 $plan = pg_escape_string($con, $_POST['plan']);
+$memberPass = pg_escape_string($con, $_POST['member_pass']);
 
-// Truncate to match database constraints
 $memID = substr($memID, 0, 20);
 $email = substr($email, 0, 100);
 $phn = substr($phn, 0, 20);
@@ -51,8 +55,8 @@ $stname = substr($stname, 0, 40);
 $state = substr($state, 0, 15);
 $city = substr($city, 0, 15);
 $zipcode = substr($zipcode, 0, 20);
+$memberPass = substr($memberPass, 0, 50);
 
-// Insert into users (same column order as new_submit.php)
 $query = "INSERT INTO users(username,gender,mobile,email,dob,joining_date,userid) VALUES('$uname','$gender','$phn','$email','$dob','$jdate','$memID')";
 $result = pg_query($con, $query);
 
@@ -69,13 +73,23 @@ if (!$result) {
 	exit;
 }
 
-// Retrieve plan and insert enrolls_to (same as new_submit.php)
+pg_query($con, "CREATE TABLE IF NOT EXISTS member_login(userid varchar(20) PRIMARY KEY, pass_key varchar(50) NOT NULL)");
+$queryLogin = "INSERT INTO member_login(userid,pass_key) VALUES('$memID','$memberPass')";
+$resultLogin = pg_query($con, $queryLogin);
+if (!$resultLogin) {
+	pg_query($con, "DELETE FROM users WHERE userid='$memID'");
+	echo "<head><script>alert('Member Login Setup Failed');</script></head></html>";
+	echo "error: " . pg_last_error($con);
+	echo "<meta http-equiv='refresh' content='2; url=index.php'>";
+	exit;
+}
+
 $query1 = "SELECT * FROM plan WHERE pid='$plan'";
 $result1 = pg_query($con, $query1);
 
 if (!$result1 || pg_num_rows($result1) == 0) {
-	$query3 = "DELETE FROM users WHERE userid='$memID'";
-	pg_query($con, $query3);
+	pg_query($con, "DELETE FROM users WHERE userid='$memID'");
+	pg_query($con, "DELETE FROM member_login WHERE userid='$memID'");
 	echo "<head><script>alert('Member Added Failed: Invalid plan.');</script></head></html>";
 	echo "<meta http-equiv='refresh' content='2; url=index.php'>";
 	exit;
@@ -91,8 +105,8 @@ $query2 = "INSERT INTO enrolls_to(pid,uid,paid_date,expire,renewal) VALUES('$pla
 $result2 = pg_query($con, $query2);
 
 if (!$result2) {
-	$query3 = "DELETE FROM users WHERE userid='$memID'";
-	pg_query($con, $query3);
+	pg_query($con, "DELETE FROM users WHERE userid='$memID'");
+	pg_query($con, "DELETE FROM member_login WHERE userid='$memID'");
 	echo "<head><script>alert('Member Added Failed');</script></head></html>";
 	echo "error: " . pg_last_error($con);
 	echo "<meta http-equiv='refresh' content='2; url=index.php'>";
@@ -101,11 +115,10 @@ if (!$result2) {
 
 $query4 = "INSERT INTO health_status(uid) VALUES('$memID')";
 $result4 = pg_query($con, $query4);
-
 if (!$result4) {
-	$query3 = "DELETE FROM users WHERE userid='$memID'";
-	pg_query($con, $query3);
 	pg_query($con, "DELETE FROM enrolls_to WHERE uid='$memID'");
+	pg_query($con, "DELETE FROM users WHERE userid='$memID'");
+	pg_query($con, "DELETE FROM member_login WHERE userid='$memID'");
 	echo "<head><script>alert('Member Added Failed');</script></head></html>";
 	echo "<meta http-equiv='refresh' content='2; url=index.php'>";
 	exit;
@@ -113,12 +126,11 @@ if (!$result4) {
 
 $query5 = "INSERT INTO address(id,\"streetName\",state,city,zipcode) VALUES('$memID','$stname','$state','$city','$zipcode')";
 $result5 = pg_query($con, $query5);
-
 if (!$result5) {
-	$query3 = "DELETE FROM users WHERE userid='$memID'";
-	pg_query($con, $query3);
-	pg_query($con, "DELETE FROM enrolls_to WHERE uid='$memID'");
 	pg_query($con, "DELETE FROM health_status WHERE uid='$memID'");
+	pg_query($con, "DELETE FROM enrolls_to WHERE uid='$memID'");
+	pg_query($con, "DELETE FROM users WHERE userid='$memID'");
+	pg_query($con, "DELETE FROM member_login WHERE userid='$memID'");
 	echo "<head><script>alert('Member Added Failed');</script></head></html>";
 	echo "error: " . pg_last_error($con);
 	echo "<meta http-equiv='refresh' content='2; url=index.php'>";
@@ -127,3 +139,4 @@ if (!$result5) {
 
 header('Location: index.php?registered=1');
 exit;
+?>
