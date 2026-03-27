@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/check_license.php';
-include __DIR__ . '/include/db_conn.php';
 
 session_start();
 if(isset($_SESSION["user_data"]))
@@ -17,229 +16,199 @@ if(isset($_SESSION["member_userid"]))
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Sports Club | Login</title>
+	<title>Sports Club | Home</title>
 	<link rel="stylesheet" href="./css/style.css"/>
 	<link rel="stylesheet" type="text/css" href="./css/entypo.css">
 </head>
 <style>
-h2 {
-  color:white;
-background-image: url("blaze_back_new.png");
-width: 1366px;
-align-items: center;
+body { margin:0; font-family: Arial, Helvetica, sans-serif; }
+.hero {
+	background: #1f242c url("blaze_back_new.png") no-repeat center top;
+	background-size: cover;
+	min-height: 70vh;
+	color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding: 40px 15px;
 }
-#studentRegisterForm label {
-  display: block;
-  color: #ddd;
-  font-size: 12px;
-  margin-bottom: 4px;
+.hero-inner {
+	background: rgba(0,0,0,0.55);
+	padding: 28px 18px;
+	border-radius: 8px;
+	max-width: 820px;
 }
-#studentRegisterForm select.form-control,
-#studentRegisterForm select.form-control option {
-  background: #2b303a !important;
-  color: #fff !important;
+.hero h1 { margin: 0 0 10px 0; font-size: 40px; color:#7CFC00; }
+.hero p { margin: 0 0 18px 0; font-size: 16px; color:#e6e6e6; }
+.hero .subtext { font-size: 14px; color:#d4d4d4; margin-top: 8px; }
+.btn-row { margin-top: 18px; }
+.btn-row a { margin: 6px; display:inline-block; }
+.section {
+	padding: 25px 10px;
+	background: #2b303a;
+	color: #fff;
+}
+.about {
+	max-width: 920px;
+	margin: 0 auto 18px auto;
+	background: #1f242c;
+	border:1px solid rgba(255,255,255,0.08);
+	border-radius:10px;
+	padding: 16px 16px;
+	line-height: 1.55;
+	font-size: 14px;
+	color: #dcdcdc;
+}
+.about h2 {
+	margin: 0 0 8px 0;
+	font-size: 22px;
+	color: #7CFC00;
+}
+.cards { max-width: 900px; margin: 0 auto; display:flex; flex-wrap:wrap; gap:12px; justify-content:center; }
+.card {
+	background:#1f242c;
+	border:1px solid rgba(255,255,255,0.08);
+	border-radius:10px;
+	padding: 14px 14px;
+	width: 260px;
+}
+.card h3 { margin: 0 0 8px 0; font-size: 18px; color:#7CFC00; }
+.card p { margin: 0; font-size: 13px; color:#dcdcdc; }
+.split {
+	max-width: 920px;
+	margin: 20px auto 0 auto;
+	display:flex;
+	flex-wrap:wrap;
+	gap:12px;
+}
+.panel {
+	flex: 1 1 300px;
+	background:#1f242c;
+	border:1px solid rgba(255,255,255,0.08);
+	border-radius:10px;
+	padding: 14px 14px;
+}
+.panel h3 {
+	margin: 0 0 10px 0;
+	font-size: 18px;
+	color:#7CFC00;
+}
+.panel ul {
+	margin: 0;
+	padding-left: 18px;
+	color:#dcdcdc;
+	font-size: 13px;
+	line-height: 1.6;
+}
+.cta {
+	max-width: 920px;
+	margin: 18px auto 0 auto;
+	background:#1f242c;
+	border:1px solid rgba(255,255,255,0.08);
+	border-radius:10px;
+	padding: 18px 16px;
+	text-align:center;
+}
+.cta h3 {
+	margin: 0 0 8px 0;
+	color:#7CFC00;
+	font-size: 20px;
+}
+.cta p {
+	margin: 0 0 12px 0;
+	color:#dcdcdc;
+	font-size: 14px;
+}
+.footer {
+	background:#111;
+	color:#bbb;
+	text-align:center;
+	padding: 10px;
+	font-size: 12px;
 }
 </style>
 <body>
-    <center><h2 style="color:#7CFC00;font-size:30px"><BR><BR><BR>WELCOME TO <BR>SPORTS CLUB Management System <BR><BR><BR></h2></center>
-<body class="page-body login-page login-form-fall">
-    
-    	<div id="container">
-			<div class="login-container">
-	
-	<div class="login-header login-caret">
-		
-		<div class="login-content">
-			
-			<a href="#" class="logo">
-				<img src="logo1.png" alt="" />
-			</a>
-			
-			<p class="description">Dear user, log in to access your area!</p>
-			
-			<!-- progress bar indicator -->
-			<div class="login-progressbar-indicator">
-				<h3>43%</h3>
-				<span>logging in...</span>
+	<div class="hero">
+		<div class="hero-inner">
+			<img src="logo1.png" alt="" style="width:160px; height:auto;">
+			<h1>SPORTS CLUB</h1>
+			<p>Welcome to Sports Club Management System - one place to manage fitness, training, memberships, and player growth.</p>
+			<p class="subtext">From football and cricket to badminton, swimming, yoga, and tennis, we support every learner from beginner level to advanced level with structured plans and progress tracking.</p>
+			<div class="btn-row">
+				<a class="btn btn-primary" href="login.php">Sign In</a>
+				<a class="btn btn-primary" href="login.php#register">Register</a>
 			</div>
 		</div>
-		
 	</div>
-	
-	<div class="login-progressbar">
-		<div></div>
-	</div>
-	
-	<div class="login-form">
-		
-		<div class="login-content">
-			
-			<form action="secure_login.php" method='post' id="bb">				
-				<div class="form-group">					
-					<div class="input-group">
-						<div class="input-group-addon">
-							<i class="entypo-user"></i>
-						</div>
-							<input type="text" placeholder="Admin username / Member ID / Member email" class="form-control" name="user_id_auth" id="textfield" data-rule-minlength="4" data-rule-required="true">
-					</div>
-				</div>				
-								
-				<div class="form-group">					
-					<div class="input-group">
-						<div class="input-group-addon">
-							<i class="entypo-key"></i>
-						</div>
-						<input type="password" name="pass_key" id="pwfield" class="form-control" data-rule-required="true" data-rule-minlength="6" placeholder="Password">
-					</div>				
-				</div>
-				
-				<div class="form-group">
-					<button type="submit" name="btnLogin" class="btn btn-primary">
-						Login In
-						<i class="entypo-login"></i>
-					</button>
-				</div>
-			</form>
 
-				<div class="form-group">
-					<button type="button" class="btn btn-primary" id="btnRegisterStudent">
-						Register as a member
-					</button>
-				</div>
-
-				<div id="studentRegisterForm" style="display:none;">
-					<form action="register_student.php" method="post">
-						<input type="hidden" name="m_id" value="<?php echo time(); ?>">
-						<div class="form-group">
-							<label for="u_name">Name</label>
-							<div class="input-group">
-								<div class="input-group-addon"><i class="entypo-user"></i></div>
-								<input type="text" name="u_name" id="u_name" class="form-control" placeholder="Name" required maxlength="40">
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="street_name">Street name</label>
-							<div class="input-group">
-								<div class="input-group-addon"><i class="entypo-key"></i></div>
-								<input type="text" name="street_name" id="street_name" class="form-control" placeholder="Street name" required maxlength="40">
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="city">City</label>
-							<div class="input-group">
-								<div class="input-group-addon"><i class="entypo-key"></i></div>
-								<input type="text" name="city" id="city" class="form-control" placeholder="City" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="zipcode">Zipcode</label>
-							<div class="input-group">
-								<div class="input-group-addon"><i class="entypo-key"></i></div>
-								<input type="number" name="zipcode" id="zipcode" class="form-control" placeholder="Zipcode" required maxlength="6">
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="state">State</label>
-							<div class="input-group">
-								<div class="input-group-addon"><i class="entypo-key"></i></div>
-								<input type="text" name="state" id="state" class="form-control" placeholder="State" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="gender">Gender</label>
-							<div class="input-group">
-								<div class="input-group-addon"><i class="entypo-user"></i></div>
-								<select name="gender" id="gender" class="form-control" required>
-									<option value="">-- Select --</option>
-									<option value="Male">Male</option>
-									<option value="Female">Female</option>
-								</select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="dob">Date of birth</label>
-							<div class="input-group">
-								<div class="input-group-addon"><i class="entypo-calendar"></i></div>
-								<input type="date" name="dob" id="dob" class="form-control" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="mobile">Phone</label>
-							<div class="input-group">
-								<div class="input-group-addon"><i class="entypo-key"></i></div>
-								<input type="text" name="mobile" id="mobile" class="form-control" placeholder="Phone" required maxlength="20">
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="email">Email</label>
-							<div class="input-group">
-								<div class="input-group-addon"><i class="entypo-mail"></i></div>
-								<input type="email" name="email" id="email" class="form-control" placeholder="Email" required maxlength="100">
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="member_pass">Password</label>
-							<div class="input-group">
-								<div class="input-group-addon"><i class="entypo-key"></i></div>
-								<input type="password" name="member_pass" id="member_pass" class="form-control" placeholder="Password" required maxlength="50">
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="jdate">Joining date</label>
-							<div class="input-group">
-								<div class="input-group-addon"><i class="entypo-calendar"></i></div>
-								<input type="date" name="jdate" id="jdate" class="form-control" placeholder="Joining date" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="plan">Plan</label>
-							<div class="input-group">
-								<div class="input-group-addon"><i class="entypo-key"></i></div>
-								<select name="plan" id="plan" class="form-control" required>
-									<option value="">-- Select plan --</option>
-									<?php
-									$plan_query = "SELECT * FROM plan WHERE active='yes'";
-									$plan_result = pg_query($con, $plan_query);
-									if ($plan_result && pg_num_rows($plan_result) != 0) {
-										while ($plan_row = pg_fetch_row($plan_result)) {
-											echo "<option value=\"" . htmlspecialchars($plan_row[0]) . "\">" . htmlspecialchars($plan_row[1]) . "</option>";
-										}
-									}
-									?>
-								</select>
-							</div>
-						</div>
-						<div class="form-group">
-							<button type="submit" name="btnRegister" class="btn btn-primary">Submit</button>
-							<button type="button" class="btn btn-primary" id="btnCancelRegister">Cancel</button>
-						</div>
-					</form>
-				</div>
-				<?php if (isset($_GET['registered']) && $_GET['registered'] === '1'): ?>
-				<p style="color:#7CFC00;">You have been enrolled. Use the same login form above with your Member ID or Email + Password.</p>
-				<?php elseif (isset($_GET['registered']) && $_GET['registered'] === '0'): ?>
-				<p style="color:#ff6b6b;">Registration failed. Please try again.</p>
-				<?php endif; ?>
-		
-				<div class="login-bottom-links">
-					<a href="forgot_password.php" class="link">Forgot your password?</a>
-				</div>			
+	<div class="section">
+		<div class="about">
+			<h2>About Sports Club</h2>
+			Our Sports Club is built to help students and members stay active, disciplined, and healthy through regular sports practice. The club provides coaching support, monthly plan subscriptions, payment tracking, and health updates such as height, weight, fat percentage, and calorie notes. Members can choose plans based on interest and continue renewal every month, while administrators manage plans, members, routines, and overall club performance from a central dashboard.
+			<br><br>
+			We focus on practical development: skill training sessions, fitness conditioning, and performance monitoring. This system makes day-to-day operations simple for the management team and gives members clear visibility of their own records, plan validity, and payment history.
 		</div>
-		
-	</div>
-	
-</div>
-
+		<div class="cards">
+			<div class="card">
+				<h3>Admin Panel</h3>
+				<p>Manage members, create plans, take payments, and view reports.</p>
+			</div>
+			<div class="card">
+				<h3>Member Dashboard</h3>
+				<p>View your plan, payments, and latest health status in one place.</p>
+			</div>
+			<div class="card">
+				<h3>Simple & Fast</h3>
+				<p>Beginner-friendly PHP project with clean flow for presentations.</p>
+			</div>
+			<div class="card">
+				<h3>Health Tracking</h3>
+				<p>Record and review calorie, height, weight, fat percentage, and remarks.</p>
+			</div>
+			<div class="card">
+				<h3>Payment Records</h3>
+				<p>Track monthly renewals, active memberships, and complete payment history.</p>
+			</div>
+			<div class="card">
+				<h3>Plan Management</h3>
+				<p>Create and maintain plan offerings with pricing and validity details.</p>
+			</div>
 		</div>
 
-<script>
-(function(){
-	var btn = document.getElementById('btnRegisterStudent');
-	var form = document.getElementById('studentRegisterForm');
-	var cancel = document.getElementById('btnCancelRegister');
-	if (btn) btn.onclick = function(){ form.style.display = form.style.display === 'none' ? 'block' : 'none'; };
-	if (cancel) cancel.onclick = function(){ form.style.display = 'none'; };
-})();
-</script>
+		<div class="split">
+			<div class="panel">
+				<h3>Sports We Support</h3>
+				<ul>
+					<li>Football training for beginners and intermediate players.</li>
+					<li>Cricket practice with batting, bowling, and field drills.</li>
+					<li>Badminton sessions for reflex, speed, and court movement.</li>
+					<li>Swimming programs focused on endurance and technique.</li>
+					<li>Yoga sessions for flexibility, breathing, and recovery.</li>
+					<li>Tennis training for footwork and match practice.</li>
+				</ul>
+			</div>
+			<div class="panel">
+				<h3>Why This System Helps</h3>
+				<ul>
+					<li>Single login flow for both admin and member accounts.</li>
+					<li>Centralized member profile with plan and payment records.</li>
+					<li>Useful for coaching review and periodic performance discussions.</li>
+					<li>Simple structure suitable for classroom projects and presentations.</li>
+					<li>Auto-seeding support for quick setup in new systems.</li>
+					<li>Clear dashboards to reduce manual record handling.</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="cta">
+			<h3>Ready to Explore the Sports Club Platform?</h3>
+			<p>Sign in as admin to manage the club, or register as a member to view your own plans, payments, and health progress.</p>
+			<a class="btn btn-primary" href="login.php">Go to Sign In</a>
+			<a class="btn btn-primary" href="login.php#register">Go to Register</a>
+		</div>
+	</div>
+
+	<div class="footer"><strong>SPORTS CLUB</strong> | Home</div>
 </body>
 </html>

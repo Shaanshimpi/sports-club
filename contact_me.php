@@ -17,7 +17,7 @@ curl_close($ch);
 if ($http_code == 200 && $response !== false) {
     $data = json_decode($response, true);
     if (isset($data['completed']) && $data['completed'] === true) {
-        header('Location: index.php');
+        header('Location: login.php');
         exit();
     }
 }

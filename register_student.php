@@ -3,7 +3,7 @@ require_once __DIR__ . '/check_license.php';
 include __DIR__ . '/include/db_conn.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-	header('Location: index.php');
+	header('Location: login.php');
 	exit;
 }
 
@@ -29,7 +29,7 @@ if (strlen($_POST['member_pass']) > 50) {
 
 if (!empty($errors)) {
 	echo "<head><script>alert('Validation Error:\n" . implode("\n", array_map('addslashes', $errors)) . "');</script></head></html>";
-	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+	echo "<meta http-equiv='refresh' content='0; url=login.php'>";
 	exit;
 }
 
@@ -69,7 +69,7 @@ if (!$result) {
 	} else {
 		echo "<head><script>alert('Registration Failed: " . addslashes($error) . "');</script></head></html>";
 	}
-	echo "<meta http-equiv='refresh' content='2; url=index.php'>";
+	echo "<meta http-equiv='refresh' content='2; url=login.php'>";
 	exit;
 }
 
@@ -80,7 +80,7 @@ if (!$resultLogin) {
 	pg_query($con, "DELETE FROM users WHERE userid='$memID'");
 	echo "<head><script>alert('Member Login Setup Failed');</script></head></html>";
 	echo "error: " . pg_last_error($con);
-	echo "<meta http-equiv='refresh' content='2; url=index.php'>";
+	echo "<meta http-equiv='refresh' content='2; url=login.php'>";
 	exit;
 }
 
@@ -91,7 +91,7 @@ if (!$result1 || pg_num_rows($result1) == 0) {
 	pg_query($con, "DELETE FROM users WHERE userid='$memID'");
 	pg_query($con, "DELETE FROM member_login WHERE userid='$memID'");
 	echo "<head><script>alert('Member Added Failed: Invalid plan.');</script></head></html>";
-	echo "<meta http-equiv='refresh' content='2; url=index.php'>";
+	echo "<meta http-equiv='refresh' content='2; url=login.php'>";
 	exit;
 }
 
@@ -109,7 +109,7 @@ if (!$result2) {
 	pg_query($con, "DELETE FROM member_login WHERE userid='$memID'");
 	echo "<head><script>alert('Member Added Failed');</script></head></html>";
 	echo "error: " . pg_last_error($con);
-	echo "<meta http-equiv='refresh' content='2; url=index.php'>";
+	echo "<meta http-equiv='refresh' content='2; url=login.php'>";
 	exit;
 }
 
@@ -120,7 +120,7 @@ if (!$result4) {
 	pg_query($con, "DELETE FROM users WHERE userid='$memID'");
 	pg_query($con, "DELETE FROM member_login WHERE userid='$memID'");
 	echo "<head><script>alert('Member Added Failed');</script></head></html>";
-	echo "<meta http-equiv='refresh' content='2; url=index.php'>";
+	echo "<meta http-equiv='refresh' content='2; url=login.php'>";
 	exit;
 }
 
@@ -133,10 +133,10 @@ if (!$result5) {
 	pg_query($con, "DELETE FROM member_login WHERE userid='$memID'");
 	echo "<head><script>alert('Member Added Failed');</script></head></html>";
 	echo "error: " . pg_last_error($con);
-	echo "<meta http-equiv='refresh' content='2; url=index.php'>";
+	echo "<meta http-equiv='refresh' content='2; url=login.php'>";
 	exit;
 }
 
-header('Location: index.php?registered=1');
+header('Location: login.php?registered=1');
 exit;
 ?>

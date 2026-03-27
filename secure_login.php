@@ -16,17 +16,17 @@ $pass_key     = stripslashes($pass_key);
 
 if($pass_key=="" &&  $user_id_auth==""){
    echo "<head><script>alert('Username and Password can be empty');</script></head></html>";
-               echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+               echo "<meta http-equiv='refresh' content='0; url=login.php'>";
   
 }
 else if($pass_key=="" ){
    echo "<head><script>alert('Password can be empty');</script></head></html>";
-               echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+               echo "<meta http-equiv='refresh' content='0; url=login.php'>";
   
 }
 else if($user_id_auth=="" ){
    echo "<head><script>alert('Username can be empty');</script></head></html>";
-               echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+               echo "<meta http-equiv='refresh' content='0; url=login.php'>";
   
 }
 
@@ -65,7 +65,7 @@ if ($result && pg_num_rows($result) == 1) {
         header("location: ./dashboard/member/");
         exit;
     } else {
-        include 'index.php';
+        include 'login.php';
         echo "<html><head><script>alert('Username OR Password is Invalid');</script></head></html>";
     }
 }

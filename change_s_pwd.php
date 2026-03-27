@@ -26,14 +26,14 @@ if (isset($user_id_auth) && isset($pass) && isset($key)) {
     if ($count == 1) {
         pg_query($con, "UPDATE admin SET pass_key='$pass' WHERE username='$user_id_auth'");
         echo "<html><head><script>alert('Password Updated ,Login Again ');</script></head></html>";
-        echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+        echo "<meta http-equiv='refresh' content='0; url=login.php'>";
     } else {
         echo "<html><head><script>alert('Change Unsuccessful');</script></head></html>";
-        echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+        echo "<meta http-equiv='refresh' content='0; url=login.php'>";
     }
 } else {
     echo "<html><head><script>alert('Change Unsuccessful');</script></head></html>";
-    echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+    echo "<meta http-equiv='refresh' content='0; url=login.php'>";
 }
 }
 else{
