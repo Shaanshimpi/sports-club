@@ -3,5 +3,6 @@
     <li id="myplan"><a href="my_plan.php"><i class="entypo-star"></i><span>My Plan</span></a></li>
     <li id="mypay"><a href="my_payments.php"><i class="entypo-credit-card"></i><span>My Payments</span></a></li>
     <li id="myhealth"><a href="my_health.php"><i class="entypo-heart"></i><span>My Health</span></a></li>
+    <li id="myroutine"><a href="my_routines.php"><i class="entypo-alert"></i><span>My Routines</span></a></li>
     <li><a href="logout.php"><i class="entypo-logout"></i><span>Logout</span></a></li>
 </ul>

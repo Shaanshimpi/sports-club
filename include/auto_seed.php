@@ -16,8 +16,8 @@ function run_seed_if_needed($con)
         $current_version = $row['key_value'];
     }
 
-    // If v1 is already seeded, do nothing.
-    if ($current_version === 'v1') {
+    // If v2 is already seeded, do nothing.
+    if ($current_version === 'v2') {
         return;
     }
 
@@ -53,11 +53,11 @@ function run_seed_if_needed($con)
         return;
     }
 
-    // 3) Mark as seeded version v1.
+    // 3) Mark as seeded version v2 (bump when schema/seed changes require re-run).
     pg_query($con, "INSERT INTO setup_meta(key_name, key_value, updated_at)
-                    VALUES('seed_version','v1',CURRENT_TIMESTAMP)
+                    VALUES('seed_version','v2',CURRENT_TIMESTAMP)
                     ON CONFLICT (key_name)
-                    DO UPDATE SET key_value='v1', updated_at=CURRENT_TIMESTAMP");
+                    DO UPDATE SET key_value='v2', updated_at=CURRENT_TIMESTAMP");
 }
 }
 ?>

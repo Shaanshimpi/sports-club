@@ -72,6 +72,15 @@ $uid = pg_escape_string($con, $_SESSION['member_userid']);
             <div class="tile-stats tile-aqua"><div class="icon"><i class="entypo-heart"></i></div><div class="num"><h3>Latest Health Status</h3><?php echo $healthText; ?></div></div>
         </div>
 
+        <div class="col-sm-12" style="margin-top:12px;">
+            <a href="my_routines.php">
+                <div class="tile-stats tile-green" style="cursor:pointer;">
+                    <div class="icon"><i class="entypo-alert"></i></div>
+                    <div class="num"><h3>My Sports Routines</h3><span style="font-size:14px;">View schedules for all your enrolled plans</span></div>
+                </div>
+            </a>
+        </div>
+
         <?php include('footer.php'); ?>
     </div>
 </div>

@@ -1,5 +1,7 @@
 -- One-time class seed data (PostgreSQL)
--- 10 students, admin data, plans, health history, and 3-4 payments per student.
+-- 10 users (students), admins, plans, addresses, health history, enrollments,
+-- sports routines (per plan), and 3-4 payments per user.
+-- Routines attach to plan (pid); members see them via my_routines for any plan in enrolls_to.
 
 BEGIN;
 
@@ -149,5 +151,23 @@ INSERT INTO enrolls_to (pid, uid, paid_date, expire, renewal) VALUES
 ('YGQKSG', '2600001010', '2026-01-20', '2026-02-20', 'no'),
 ('YGQKSG', '2600001010', '2026-02-20', '2026-03-20', 'no'),
 ('YGQKSG', '2600001010', '2026-03-20', '2026-04-20', 'yes');
+
+-- Sports routines: one or more weekly schedules per plan (users see via enrolled plans)
+INSERT INTO sports_timetable (tname, day1, day2, day3, day4, day5, day6, pid) VALUES
+('Football Morning Batch', 'Tactics + passing 7-9am', 'Rest / recovery', 'Speed drills', 'Rest', 'Small-sided games', 'Match simulation', 'FOQKJF'),
+('Football Evening Batch', 'Strength gym', 'Ball control', 'Rest', 'Set-piece practice', 'Endurance run', 'League friendly', 'FOQKJF'),
+
+('Cricket Nets', 'Batting nets 6-8am', 'Bowling rhythm', 'Rest', 'Fielding drills', 'Match scenario', 'T20 practice', 'COQKJC'),
+('Cricket Weekend', 'Rest', 'Rest', 'Nets optional', 'Captain meeting', 'Full match', 'Cool-down stretch', 'COQKJC'),
+
+('Badminton Skills', 'Footwork ladder', 'Smash practice', 'Doubles rotation', 'Rest', 'Singles match play', 'Video review', 'BOQKJB'),
+
+('Swim Lanes A', 'Freestyle endurance', 'Technique drills', 'Rest', 'Breaststroke sets', 'Sprint intervals', 'Open swim', 'SWQKSA'),
+('Swim Lanes B', 'Backstroke focus', 'Kickboard sets', 'Turn practice', 'Rest', 'Medley mix', 'Recovery swim', 'SWQKSA'),
+
+('Yoga Flow', 'Sun salutation', 'Hip mobility', 'Core stability', 'Breathing pranayama', 'Balance poses', 'Restorative', 'YGQKSG'),
+
+('Tennis Court 1', 'Serve + return', 'Rally baseline', 'Net approach', 'Rest', 'Doubles patterns', 'Match tie-break', 'TNQKST'),
+('Tennis Court 2', 'Footwork cones', 'Topspin forehand', 'Slice backhand', 'Serve + volley', 'Rest', 'Club tournament', 'TNQKST');
 
 COMMIT;
